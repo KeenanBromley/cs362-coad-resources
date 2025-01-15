@@ -56,4 +56,11 @@ RSpec.describe Organization, type: :model do
     expect(organization).to respond_to(:transportation)
   end 
 
+  it "has many users" do 
+    should have_many(:users)
+  end
+
+  it "has many tickets" do
+    should have_many(:tickets)
+  end
 end
