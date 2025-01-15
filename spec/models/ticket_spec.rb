@@ -40,4 +40,15 @@ RSpec.describe Ticket, type: :model do
     expect(ticket).to respond_to(:region_id)
   end 
 
+  it "belongs to organization" do 
+    belong_to(:organization)
+  end
+
+  it "belongs to region" do
+    belong_to(:region)
+  end
+  
+  it "belongs to resource_category" do
+    belong_to(:resource_category)
+  end
 end
