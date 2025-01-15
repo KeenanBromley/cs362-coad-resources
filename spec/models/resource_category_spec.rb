@@ -19,4 +19,8 @@ RSpec.describe ResourceCategory, type: :model do
   it "has many tickets" do
     should have_many(:tickets)
   end
+  
+  it "has and belongs to many organizations" do
+    should have_and_belong_to_many(:organizations)
+  end
 end
