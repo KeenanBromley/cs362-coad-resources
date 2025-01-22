@@ -80,7 +80,7 @@ RSpec.describe Ticket, type: :model do
     end
 
     #it "validates phone" do
-    #  should validate_(:phone).phony_plausible
+      #should validate(:phone).phony_plausible
     #end
   end
 
