@@ -42,4 +42,14 @@ RSpec.describe User, type: :model do
     end 
   end 
 
+  describe "member function tests" do
+    it "responds to to_s" do
+      expect(user).to respond_to(:to_s)
+    end 
+
+    it "responds to set_default role" do
+      expect(user).to respond_to(:set_default_role)
+    end
+  end
+
 end
