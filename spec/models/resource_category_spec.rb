@@ -59,12 +59,11 @@ RSpec.describe ResourceCategory, type: :model do
   end
 
   describe "scope tests" do
-    it "responds to active" do
-      expect(ResourceCategory).to respond_to(:active)
-    end
-
-    it "responds to inactive" do
-      expect(ResourceCategory).to respond_to(:inactive)
+    it "returns only active resource categories" do
+      active_category = ResourceCategory.create!(name: "Active Category", active: true)
+      inactive_category = ResourceCategory.create!(name: "Inactive Category", active: false)
+      expect(ResourceCategory.active).to include(active_category)
+      expect(ResourceCategory.active).not_to include(inactive_category)
     end
   end
 end
