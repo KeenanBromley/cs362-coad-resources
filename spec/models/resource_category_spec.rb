@@ -42,11 +42,13 @@ RSpec.describe ResourceCategory, type: :model do
 
   describe "member function tests" do
     it "activates" do
+      res_cat.activate
       expect(res_cat.active).to eq(true)
     end
 
     it "deactivates" do
-      expect(res_cat.deactivate).to eq(false)
+      res_cat.deactivate
+      expect(res_cat.active).to eq(false)
     end
 
     it "is inactive?" do
