@@ -50,11 +50,11 @@ RSpec.describe User, type: :model do
 
   describe "member function tests" do
     it "responds to to_s" do
-      expect(user).to respond_to(:to_s)
+      expect(user.to_s).to eq(user.email)
     end 
 
     it "responds to set_default role" do
-      expect(user).to respond_to(:set_default_role)
+      expect(user.set_default_role).to eq(user.role)
     end
   end
 
