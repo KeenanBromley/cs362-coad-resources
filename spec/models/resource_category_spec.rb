@@ -8,20 +8,22 @@ RSpec.describe ResourceCategory, type: :model do
     ResourceCategory.new
   end
 
-  it "responds to name" do
-    expect(res_cat).to respond_to(:name)
-  end 
+  describe "responds to" do
+    it "responds to name" do
+      expect(res_cat).to respond_to(:name)
+    end 
 
-  it "responds to active" do
-    expect(res_cat).to respond_to(:active)
-  end
+    it "responds to active" do
+      expect(res_cat).to respond_to(:active)
+    end
 
-  it "has many tickets" do
-    should have_many(:tickets)
-  end
-  
-  it "has and belongs to many organizations" do
-    should have_and_belong_to_many(:organizations)
+    it "has many tickets" do
+      should have_many(:tickets)
+    end
+    
+    it "has and belongs to many organizations" do
+      should have_and_belong_to_many(:organizations)
+    end
   end
 
   describe "validation tests" do
