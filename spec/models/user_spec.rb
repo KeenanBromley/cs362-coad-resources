@@ -40,6 +40,12 @@ RSpec.describe User, type: :model do
     it "validates length of password" do
       should validate_length_of(:password).is_at_least(7).is_at_most(255).on(:create)
     end 
+    it "validates email format" do 
+      valid_email = "bobthebuilder@gmail.com"
+      invalid_email = "bobthebuilder"
+      expect(User.new(email: valid_email, password: "password")).to be_valid
+      expect(User.new(email: invalid_email, password: "password")).not_to be_valid
+    end
   end 
 
   describe "member function tests" do
