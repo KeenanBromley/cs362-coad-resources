@@ -34,6 +34,11 @@ RSpec.describe Region, type: :model do
     end 
   end
 
+  describe "member functions tests" do
+    it "responds to to_s" do
+      expect(region).to respond_to(:to_s)
+    end
+  end
   
 
 end
