@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Region, type: :model do
 
-  let (:region) {Region.new}
+  let (:region) { FactoryBot.build_stubbed(:region) }
   it "exists" do
     Region.new
   end
@@ -13,8 +13,9 @@ RSpec.describe Region, type: :model do
 
   it "has a string representation that is its name" do
     name = 'Mt. Hood'
-    region = Region.new(name: name)
+    region = FactoryBot.build_stubbed(:region, name: 'Mt. Hood') 
     result = region.to_s
+    expect(result).to eq('Mt. Hood')
   end
   it "has many tickets" do
     should have_many(:tickets)
