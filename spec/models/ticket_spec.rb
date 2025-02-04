@@ -101,6 +101,7 @@ RSpec.describe Ticket, type: :model do
   describe "scope tests" do
     it "scopes closed tickets" do
       region = Region.create!(name: "region1")
+      # region = FactoryBot.create(:region, closed: false)
       resource = ResourceCategory.create!(name: "resource1")
       
       ticket = Ticket.create!(
