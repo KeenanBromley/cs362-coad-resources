@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  let (:user) {User.new}
+  let (:user) {FactoryBot.build_stubbed(:user, email: "user@gmail.com", role: "admin")}
   
   it "exists" do
     User.new
@@ -42,14 +42,14 @@ RSpec.describe User, type: :model do
     end 
 
     valid_email = "bobthebuilder@gmail.com"
-    let (:user1) {FactoryBot.build_stubbed(:user, email: valid_email)}
+    let (:user1) {FactoryBot.build_stubbed(:user, email: valid_email, role: "admin")}
     invalid_email = "bobthebuilder"
-    let (:user2) {FactoryBot.build_stubbed(:user, email: invalid_email)}
+    let (:user2) {FactoryBot.build_stubbed(:user, email: invalid_email, role: "admin")}
     it "validates email format" do 
       valid_email = "bobthebuilder@gmail.com"
       invalid_email = "bobthebuilder"
-      expect(User.new(email: valid_email, password: "password")).to be_valid
-      expect(User.new(email: invalid_email, password: "password")).not_to be_valid
+      expect(user1).to be_valid
+      expect(user2).not_to be_valid
     end
   end 
 
