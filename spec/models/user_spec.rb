@@ -40,6 +40,11 @@ RSpec.describe User, type: :model do
     it "validates length of password" do
       should validate_length_of(:password).is_at_least(7).is_at_most(255).on(:create)
     end 
+
+    valid_email = "bobthebuilder@gmail.com"
+    let (:user1) {FactoryBot.build_stubbed(:user, email: valid_email)}
+    invalid_email = "bobthebuilder"
+    let (:user2) {FactoryBot.build_stubbed(:user, email: invalid_email)}
     it "validates email format" do 
       valid_email = "bobthebuilder@gmail.com"
       invalid_email = "bobthebuilder"
