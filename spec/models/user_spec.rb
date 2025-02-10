@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
     valid_email = "bobthebuilder@gmail.com"
     let (:user1) {FactoryBot.build_stubbed(:user, email: valid_email, role: "admin")}
     invalid_email = "bobthebuilder"
-    let (:user2) {FactoryBot.build_stubbed(:user, email: invalid_email, role: "admin")}
+    let (:user2) {FactoryBot.build_stubbed(:user, email: invalid_email, role: "organization")}
     it "validates email format" do 
       valid_email = "bobthebuilder@gmail.com"
       invalid_email = "bobthebuilder"
