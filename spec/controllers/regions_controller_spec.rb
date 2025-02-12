@@ -20,7 +20,10 @@ RSpec.describe RegionsController, type: :controller do
       expect(response).to redirect_to new_user_session_path
     }
     it { expect(get(:new)).to redirect_to new_user_session_path }
-     
+    it { expect(get(:edit, params: { id: 1 })).to redirect_to new_user_session_path }
+    it { expect(get(:show, params: { id: 1 })).to redirect_to new_user_session_path }
+    it { expect(patch(:update, params: { id: 1})).to redirect_to new_user_session_path }
+    it { expect(put(:update, params: { id: 1})).to redirect_to new_user_session_path }
   end
 
   describe 'as a logged in user' do
@@ -33,10 +36,15 @@ RSpec.describe RegionsController, type: :controller do
       expect(response).to redirect_to dashboard_path
     }
     it { expect(get(:new)).to redirect_to dashboard_path }
+    it { expect(get(:edit, params: { id: 1})).to redirect_to dashboard_path }
+    it { expect(get(:show, params: { id: 1})).to redirect_to dashboard_path }
+    it { expect(patch(:update, params: { id: 1})).to redirect_to dashboard_path}
+    it { expect(put(:update, params: { id: 1})).to redirect_to dashboard_path }
   end
 
   describe 'as an admin' do
     let(:user) { FactoryBot.create(:user, :admin) }
+    let(:region) { FactoryBot.create(:region) }
     before(:each) { sign_in user }
 
     it { expect(get(:index)).to be_successful }
@@ -45,6 +53,13 @@ RSpec.describe RegionsController, type: :controller do
       expect(response).to redirect_to regions_path
     }
     it { expect(get(:new)).to be_successful }
+    it { expect(get(:edit, params: { id: region.id })).to be_successful }
+    it { expect(get(:show, params: { id: region.id })).to be_successful}
+    it {
+      patch(:update, params: { id: region.id, region: { name: "Updated Region" }})
+      expect(response).to redirect_to region_path(region)
+    }
+    #it { expect(put(:update, params: { id: region.id, region: { name: "Updated Region" }})).to be_successful }
   end
 
 end
