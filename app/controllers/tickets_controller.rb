@@ -15,6 +15,7 @@ class TicketsController < ApplicationController
       region_id: params[:ticket][:region_id],
       resource_category_id: params[:ticket][:resource_category_id]
     )
+    pp @ticket
     if @ticket.save
       redirect_to ticket_submitted_path
     else
@@ -23,7 +24,7 @@ class TicketsController < ApplicationController
   end
 
   def show
-    return redirect_to dashboard_path unless current_user&.organization&.approved? || current_user.admin?
+    return redirect_to dashboard_path unless current_user&.organization&.approved? || current_user&.admin?
     @ticket = Ticket.find(params[:id])
   end
 
