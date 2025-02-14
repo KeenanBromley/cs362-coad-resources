@@ -40,6 +40,11 @@ RSpec.describe ResourceCategory, type: :model do
     it "#to_s" do
       expect(res_cat.to_s).to eq(res_cat.name)
     end
+
+    it "#self.unspecified" do
+      resource_category = ResourceCategory.unspecified
+      expect(resource_category.name).to eq("Unspecified")
+    end
   end
 
   describe "scopes" do
