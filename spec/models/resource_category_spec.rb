@@ -18,8 +18,6 @@ RSpec.describe ResourceCategory, type: :model do
     it { should validate_uniqueness_of(:name).case_insensitive }
   end
 
-  
-
   describe "instance methods" do
     it "#activate" do
       res_cat1 = create(:resource_category)
