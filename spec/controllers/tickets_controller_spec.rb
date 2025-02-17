@@ -12,35 +12,46 @@ require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
 
-    describe 'as a logged out user' do
-      let(:user) { FactoryBot.creat(:user) }
+  describe 'as a logged out user' do
+    let(:user) { FactoryBot.creat(:user) }
 
-      it { r = FactoryBot.create(:region)
-        rc = FactoryBot.create(:resource_category)
-        o = FactoryBot.create(:organization)
-        expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to be_successful}
+    it { r = FactoryBot.create(:region)
+      rc = FactoryBot.create(:resource_category)
+      o = FactoryBot.create(:organization)
+      expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
+    }
 
-      it { expect(get(:new)).to be_successful }
+    it { expect(get(:new)).to be_successful }
 
-      it { t = FactoryBot.create(:ticket)
-        expect(get(:show, params: { id: t.id })).to redirect_to dashboard_path
-     }
-    end
+    it { t = FactoryBot.create(:ticket)
+      expect(get(:show, params: { id: t.id })).to redirect_to dashboard_path
+    }
+  end
 
-    describe 'as a logged in user' do
-      let(:user) { FactoryBot.create(:user) }
-      before(:each) { sign_in user }
+  describe 'as a logged in user' do
+    let(:user) { FactoryBot.create(:user) }
+    before(:each) { sign_in user }
 
-      it { expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket) })).to be_successful}
+    it { r = FactoryBot.create(:region)
+      rc = FactoryBot.create(:resource_category)
+      o = FactoryBot.create(:organization)
+      expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
+    }
 
-      it {expect(get(:new)).to be_successful }
-    end
+    it {expect(get(:new)).to be_successful }
+  end
 
-    describe 'as an admin' do
-        let(:user) { FactoryBot.create(:user, :admin) }
-        before(:each) { sign_in user }
+  describe 'as an admin' do
+    let(:user) { FactoryBot.create(:user, :admin) }
+    before(:each) { sign_in user }
 
-        it {expect(get(:new)).to be_successful }
-    end
+    it { r = FactoryBot.create(:region)
+      rc = FactoryBot.create(:resource_category)
+      o = FactoryBot.create(:organization)
+      expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
+    }
+
+    it {expect(get(:new)).to be_successful }
+  end
 
 end

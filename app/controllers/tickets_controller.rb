@@ -15,7 +15,6 @@ class TicketsController < ApplicationController
       region_id: params[:ticket][:region_id],
       resource_category_id: params[:ticket][:resource_category_id]
     )
-    pp @ticket
     if @ticket.save
       redirect_to ticket_submitted_path
     else
