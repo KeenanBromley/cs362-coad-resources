@@ -21,6 +21,16 @@ RSpec.describe TicketsController, type: :controller do
       expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
     }
 
+    it { ticket = build(:ticket)
+
+      allow(Ticket).to receive(:new).and_return(ticket)
+      allow(ticket).to receive(:save).and_return(false)
+
+      post(:create, params: { ticket: FactoryBot.attributes_for(:ticket)})
+      expect(response).to be_successful
+
+    }
+
     it { expect(get(:new)).to be_successful }
 
     it { t = FactoryBot.create(:ticket)
@@ -50,6 +60,16 @@ RSpec.describe TicketsController, type: :controller do
       expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
     }
 
+    it { ticket = build(:ticket)
+
+      allow(Ticket).to receive(:new).and_return(ticket)
+      allow(ticket).to receive(:save).and_return(false)
+
+      post(:create, params: { ticket: FactoryBot.attributes_for(:ticket)})
+      expect(response).to be_successful
+
+    }
+
     it {expect(get(:new)).to be_successful }
 
     it { t = FactoryBot.create(:ticket)
@@ -60,12 +80,35 @@ RSpec.describe TicketsController, type: :controller do
       expect(post(:capture, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:open'
     }
 
+    it { t = FactoryBot.create(:ticket)
+
+      allow(TicketService).to receive(:capture_ticket).and_return(false)
+
+      post(:capture, params: { id: t.id })
+      expect(response).to be_successful
+
+    }
+
     it { t = FactoryBot.create(:ticket, organization: user.organization)
       expect(post(:release, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:organization'
     }
 
+    it { t = FactoryBot.create(:ticket)
+
+      allow(TicketService).to receive(:capture_ticket).and_return(false)
+
+      expect(post(:release, params: { id: t.id })).to be_successful
+    }
+
     it { t = FactoryBot.create(:ticket, organization: user.organization)
       expect(patch(:close, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:organization'
+    }
+
+    it { t = FactoryBot.create(:ticket)
+
+      allow(TicketService).to receive(:capture_ticket).and_return(false)
+
+      expect(patch(:close, params: { id: t.id })).to be_successful
     }
   end
 
@@ -77,6 +120,16 @@ RSpec.describe TicketsController, type: :controller do
       rc = FactoryBot.create(:resource_category)
       o = FactoryBot.create(:organization)
       expect(post(:create, params: { ticket: FactoryBot.attributes_for(:ticket, region_id: r.id, organization_id: o.id, resource_category_id: rc.id)})).to redirect_to(ticket_submitted_path)
+    }
+
+    it { ticket = build(:ticket)
+
+      allow(Ticket).to receive(:new).and_return(ticket)
+      allow(ticket).to receive(:save).and_return(false)
+
+      post(:create, params: { ticket: FactoryBot.attributes_for(:ticket)})
+      expect(response).to be_successful
+
     }
 
     it {expect(get(:new)).to be_successful }
@@ -95,6 +148,12 @@ RSpec.describe TicketsController, type: :controller do
 
     it { t = FactoryBot.create(:ticket)
       expect(patch(:close, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:open'
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      delete(:destroy, params: { id: t.id })
+      expect(response).to redirect_to dashboard_path << '#tickets'
+      expect(Ticket.exists?(t.id)).to be_falsey
     }
   end
 
