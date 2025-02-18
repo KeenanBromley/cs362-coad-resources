@@ -13,7 +13,7 @@ require 'rails_helper'
 RSpec.describe TicketsController, type: :controller do
 
   describe 'as a logged out user' do
-    let(:user) { FactoryBot.creat(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     it { r = FactoryBot.create(:region)
       rc = FactoryBot.create(:resource_category)
@@ -26,10 +26,22 @@ RSpec.describe TicketsController, type: :controller do
     it { t = FactoryBot.create(:ticket)
       expect(get(:show, params: { id: t.id })).to redirect_to dashboard_path
     }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(post(:capture, params: { id: t.id })).to redirect_to dashboard_path
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(post(:release, params: { id: t.id })).to redirect_to dashboard_path
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(patch(:close, params: { id: t.id })).to redirect_to dashboard_path
+    }
   end
 
   describe 'as a logged in user' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user, :organization_approved) }
     before(:each) { sign_in user }
 
     it { r = FactoryBot.create(:region)
@@ -39,6 +51,22 @@ RSpec.describe TicketsController, type: :controller do
     }
 
     it {expect(get(:new)).to be_successful }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(get(:show, params: { id: t.id })).to be_successful
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(post(:capture, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:open'
+    }
+
+    it { t = FactoryBot.create(:ticket, organization: user.organization)
+      expect(post(:release, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:organization'
+    }
+
+    it { t = FactoryBot.create(:ticket, organization: user.organization)
+      expect(patch(:close, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:organization'
+    }
   end
 
   describe 'as an admin' do
@@ -52,6 +80,22 @@ RSpec.describe TicketsController, type: :controller do
     }
 
     it {expect(get(:new)).to be_successful }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(get(:show, params: { id: t.id })).to be_successful
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(post(:capture, params: { id: t.id })).to redirect_to dashboard_path
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(post(:release, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:captured'
+    }
+
+    it { t = FactoryBot.create(:ticket)
+      expect(patch(:close, params: { id: t.id })).to redirect_to dashboard_path << '#tickets:open'
+    }
   end
 
 end
