@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 # POST   /organizations/:id/approve(.:format)   organizations#approve
 # POST   /organizations/:id/reject(.:format)    organizations#reject
 # GET    /organizations/:id/resources(.:format) organizations#resources
@@ -12,5 +13,19 @@ require 'rails_helper'
 # DELETE /organizations/:id(.:format)           organizations#destroy
 
 RSpec.describe OrganizationsController, type: :controller do
+  
+  describe 'as a logged out user' do 
+    let(:user) { FactoryBot.create(:user) }
+  
+  end
 
+  describe 'as a logged in user' do
+    let(:user) { FactoryBot.create(:user) }
+    before(:each) { sign_in user }
+  end
+
+  describe 'as an admin' do
+    let(:user) { FactoryBot.create(:user, :admin) }
+    before(:each) { sign_in user }
+  end
 end
