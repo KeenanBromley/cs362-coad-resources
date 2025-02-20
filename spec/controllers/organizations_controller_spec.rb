@@ -17,6 +17,8 @@ RSpec.describe OrganizationsController, type: :controller do
   describe 'as a logged out user' do 
     let(:user) { FactoryBot.create(:user) }
   
+    it { expect(get(:index)).to redirect_to new_user_session_path }
+
   end
 
   describe 'as a logged in user' do
