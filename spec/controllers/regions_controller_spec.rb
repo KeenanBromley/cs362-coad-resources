@@ -22,13 +22,14 @@ RSpec.describe RegionsController, type: :controller do
     it { expect(get(:new)).to redirect_to new_user_session_path }
     it { expect(get(:edit, params: { id: 1 })).to redirect_to new_user_session_path }
     it { expect(get(:show, params: { id: 1 })).to redirect_to new_user_session_path }
-    it { expect(patch(:update, params: { id: 1})).to redirect_to new_user_session_path }
-    it { expect(put(:update, params: { id: 1})).to redirect_to new_user_session_path }
+    it { expect(patch(:update, params: { id: 1 })).to redirect_to new_user_session_path }
+    it { expect(put(:update, params: { id: 1 })).to redirect_to new_user_session_path }
     it { expect(delete(:destroy, params: { id: 1 })).to redirect_to new_user_session_path }
   end
 
   describe 'as a logged in user' do
     let(:user) { FactoryBot.create(:user) }
+    let!(:region) { FactoryBot.create(:region) } 
     before(:each) { sign_in user }
 
     it { expect(get(:index)).to redirect_to dashboard_path }
@@ -37,11 +38,21 @@ RSpec.describe RegionsController, type: :controller do
       expect(response).to redirect_to dashboard_path
     }
     it { expect(get(:new)).to redirect_to dashboard_path }
-    it { expect(get(:edit, params: { id: 1})).to redirect_to dashboard_path }
-    it { expect(get(:show, params: { id: 1})).to redirect_to dashboard_path }
-    it { expect(patch(:update, params: { id: 1})).to redirect_to dashboard_path}
-    it { expect(put(:update, params: { id: 1})).to redirect_to dashboard_path }
-    it { expect(delete(:destroy, params: { id: 1})). to redirect_to dashboard_path}
+    it { expect(get(:edit, params: { id: region.id })).to redirect_to dashboard_path }
+    it { expect(get(:show, params: { id: region.id })).to redirect_to dashboard_path }
+    it { expect(patch(:update, params: { id: region.id })).to redirect_to dashboard_path }
+    it { expect(put(:update, params: { id: region.id })).to redirect_to dashboard_path }
+    it { expect(delete(:destroy, params: { id: region.id })).to redirect_to dashboard_path }
+
+    context "when update fails due to invalid parameters" do
+      let(:invalid_params) { { id: region.id, region: { name: "" } } }
+
+      #it "renders the edit template" do
+      #  patch :update, params: invalid_params
+      #  expect(response).to redirect_to dashboard_path
+      #end
+
+    end
   end
 
   describe 'as an admin' do
