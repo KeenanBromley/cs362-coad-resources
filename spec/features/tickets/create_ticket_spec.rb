@@ -6,7 +6,7 @@ RSpec.describe 'Creating a Ticket', type: :feature do
     @region = create(:region)
     @resource_category = create(:resource_category)
   end
-  it 'can be created from the home screen'
+  it 'can be created from the home screen' do
     visit root_path   # paths in rails routes & config/routes.rb
 
     click_on 'Get Help'   # Exact name of button
