@@ -16,10 +16,11 @@ RSpec.describe 'Creating a Region', type: :feature do
     click_on 'Regions'
     click_on 'Add Region'
 
-    fill_in 'Name', with: "Collins house"
+    fill_in 'Name', with: "Collins House"
     click_on 'Add Region'
 
     expect(current_path).to eq regions_path
+    expect(page.body).to have_text('Collins House')
 
   end
 
