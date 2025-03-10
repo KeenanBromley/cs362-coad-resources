@@ -46,12 +46,12 @@ RSpec.describe RegionsController, type: :controller do
 
     context "when update fails due to invalid parameters" do
       let(:invalid_params) { { id: region.id, region: { name: "" } } }
-
-      #it "renders the edit template" do
-      #  patch :update, params: invalid_params
-      #  expect(response).to redirect_to dashboard_path
-      #end
-
+    
+      it "renders the edit template and is successful" do
+        patch :update, params: invalid_params
+        expect(response).not_to be_successful
+        #expect(response).to render_template(:edit)
+      end
     end
   end
 
@@ -91,5 +91,13 @@ RSpec.describe RegionsController, type: :controller do
       post(:create, params: { region: FactoryBot.attributes_for(:region) })
       expect(response).to be_successful
     }
+    context "when update fails due to invalid parameters" do
+      let(:invalid_params) { { id: region.id, region: { name: "" } } }
+    
+      it "renders the edit template and is successful" do
+        patch :update, params: invalid_params
+        expect(response).to be_successful
+      end
+    end
   end
 end
