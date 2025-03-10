@@ -127,6 +127,12 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       expect(response).to redirect_to(resource_categories_path)
     end
 
+    it "fails to save new resource category" do
+      allow_any_instance_of(ResourceCategory).to receive(:save).and_return(false)
+      post :create, params: { resource_category: FactoryBot.attributes_for(:resource_category) }
+      expect(response).to be_successful
+    end
+
     it "renders edit successfully" do
       get :edit, params: { id: resource_category.id }
       expect(response).to be_successful
@@ -136,6 +142,12 @@ RSpec.describe ResourceCategoriesController, type: :controller do
       patch :update, params: { id: resource_category.id, resource_category: { name: 'Updated Name' } }
       expect(response).to redirect_to(resource_category)
       expect(resource_category.reload.name).to eq('Updated Name')
+    end
+
+    it "fails to update resource category" do 
+      allow_any_instance_of(ResourceCategory).to receive(:update).and_return(false)
+      patch :update, params: { id: resource_category.id, resource_category: { name: 'Updated Name' } }
+      expect(response).to be_successful
     end
 
     it "activates the resource category and redirects" do
