@@ -19,7 +19,8 @@ RSpec.describe 'Deleting a Resource Category', type: :feature do
 
     expect(current_path).to eq resource_categories_path
 
-    expect(page.body).to have_no_text('Animal Rescue')
+    visit resource_categories_path
+    expect(page.body).to have_no_text(res_cat.name)
 
   end
 
