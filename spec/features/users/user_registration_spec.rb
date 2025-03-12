@@ -8,6 +8,7 @@ RSpec.describe 'User registration', type: :feature do
     fill_in 'Password', with: "password"
     fill_in 'Password confirmation', with: "password"
 
-    click_on 'Sign up'
+    find("#commit").click
+    expect(current_path).to eq(root_path)
   end
 end
