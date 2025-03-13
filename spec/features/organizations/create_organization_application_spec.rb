@@ -9,9 +9,7 @@ RSpec.describe 'Creating an Organization Application', type: :feature do
 
   it 'redirects to organization application submitted path' do
     log_in_as(@user)
-    puts current_path
     click_on 'Create Application'
-    puts current_path
     choose "organization_liability_insurance_true"
     choose "organization_agreement_one_true"
     choose "organization_agreement_two_true"
