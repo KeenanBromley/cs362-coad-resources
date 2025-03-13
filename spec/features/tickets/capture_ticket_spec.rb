@@ -11,7 +11,6 @@ RSpec.describe 'Capturing a ticket', type: :feature do
     log_in_as(@user)
     visit dashboard_path
     click_on ticket.name
-    pp ticket
     click_on 'Capture'
     ticket2 = Ticket.find(ticket.id)
 
